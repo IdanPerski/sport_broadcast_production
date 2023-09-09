@@ -11,7 +11,7 @@ export const getFromDatabase = async (getData, errorCatch) => {
   }
 };
 /* -----test-------- */
-export const getTest = () => {
+/* export const getTest = () => {
   console.log("!!!!getTest!!!!!!!!!");
   return getFromDatabase(
     () => {
@@ -19,13 +19,16 @@ export const getTest = () => {
     }, // wrap axios.get in a function
     "getTest error",
   );
-};
+}; */
 export const getFakeData = () => {
   return getFromDatabase(
     () => axios.get(`${apiUrl}/addProduction`),
     "getFakeData error",
   );
 };
+
+export const getProductiions = () =>
+  getFromDatabase(() => axios.get(`${apiUrl}/`), "getCards error");
 
 export const createProduction = (production) => {
   return getFromDatabase(

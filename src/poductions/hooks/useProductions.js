@@ -21,7 +21,6 @@ export default function useProduction() {
 
   //handleCreateProduction
   const handleSetProductionCrew = useCallback(async (productionCrew) => {
-    console.log(productionCrew);
     try {
       setLoading(true);
 
@@ -32,6 +31,11 @@ export default function useProduction() {
     } catch (error) {
       requestStatus(false, error, null);
     }
+  }, []);
+
+  const getProduction = useCallback(async () => {
+    try {
+    } catch (error) {}
   }, []);
 
   const value = useMemo(() => {
