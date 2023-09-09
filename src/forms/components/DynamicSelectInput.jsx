@@ -18,9 +18,15 @@ const DynamicSelectInput = ({
   ...rest
 }) => {
   const [selectedValue, setSelectedValue] = useState("");
-  console.log(options);
+  console.log(options, name);
   useEffect(() => {
-    adjustOptionsToSelectValue(options);
+    if (Array.isArray(options) && options.length > 0) {
+      const optionsKeys = Object.keys(options[0]);
+
+      options = optionsKeys.includes("fullName")
+        ? options
+        : adjustOptionsToSelectValue(options);
+    }
   }, [selectedValue, options]);
 
   return (
@@ -31,7 +37,7 @@ const DynamicSelectInput = ({
         <Select
           id={name}
           name={name}
-          value={selectedValue}
+          value={selectedValue._id || selectedValue}
           required={required}
           error={Boolean(error)}
           onChange={onChange}
@@ -39,9 +45,14 @@ const DynamicSelectInput = ({
           {options?.map((item) => {
             return (
               <MenuItem
-                value={item}
-                key={item._id}
-                onClick={() => setSelectedValue(item)}
+                value={item._id}
+                key={item._key || item._id}
+                onClick={() => {
+                  console.log(item);
+                  setSelectedValue(item);
+
+                  console.log(selectedValue);
+                }}
               >
                 {item.name || item.fullName}
               </MenuItem>

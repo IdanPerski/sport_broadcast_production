@@ -1,5 +1,4 @@
 import {
-  Box,
   Chip,
   FormControl,
   InputLabel,
@@ -7,7 +6,6 @@ import {
   OutlinedInput,
   Select,
   Stack,
-  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -17,15 +15,17 @@ import formatNameToCamelCase from "../helpers/formatNameToCamelCase ";
 
 export default function MultiSelect({ name, options, onChange, data }) {
   const _name = formatNameToCamelCase(name);
-  const currentDataForThisKeyValue = data[_name];
+
+  const currentData = data[_name];
+  console.log(currentData);
 
   const getNames = (value) => {
     let singleName;
     options
-      .filter((item) => currentDataForThisKeyValue.includes(item._id))
-      .map((item) => {
-        if (value === item._id) {
-          singleName = item.fullName;
+      .filter((item) => !currentData.includes(item._id))
+      .map((currentDataItem) => {
+        if (value._id === currentDataItem._id) {
+          singleName = currentDataItem.fullName;
         }
       });
     return singleName;
@@ -39,19 +39,16 @@ export default function MultiSelect({ name, options, onChange, data }) {
   };
 
   const handleChipDelete = (value) => {
-    const updatedSelectedValue = currentDataForThisKeyValue.filter(
-      (item) => item !== value,
-    );
+    const updatedSelectedValue = currentData.filter((item) => item !== value);
     setSelectedValue((prev) => updatedSelectedValue);
     onChange(createCustomTarget([value]));
   };
 
-  const createCustomTarget = (customValue) => {
-    console.log(customValue);
+  const createCustomTarget = (value) => {
     const customTarget = {
       target: {
         name: name, // Use the name of the MultiSelect
-        value: customValue, // Use the filtered IDs
+        value: [{ fullName: value[0].fullName, _id: value[0]._id }],
       },
     };
 
@@ -59,7 +56,7 @@ export default function MultiSelect({ name, options, onChange, data }) {
   };
   useEffect(() => {
     checkingData(selectedValue);
-  }, [data, onChange, handleChipDelete]);
+  }, [data, onChange, handleChipDelete, _name]);
   return (
     <>
       <FormControl sx={{ m: 1, width: "70%" }}>
@@ -73,12 +70,14 @@ export default function MultiSelect({ name, options, onChange, data }) {
           renderValue={() => {
             return (
               <Stack gap={1} direction="row" flexWrap="wrap">
-                {currentDataForThisKeyValue?.map((value, i, arr) => {
-                  const nameValue = getNames(value);
+                {currentData?.map((value) => {
+                  console.log(value);
+                  // const nameValue = getNames(value);
+                  // console.log(value, nameValue, "value");
                   return (
                     <Chip
-                      key={value}
-                      label={nameValue}
+                      key={value._id}
+                      label={value.fullName}
                       onDelete={() => handleChipDelete(value)}
                       deleteIcon={
                         <CancelIcon
@@ -92,25 +91,42 @@ export default function MultiSelect({ name, options, onChange, data }) {
             );
           }}
         >
-          {options?.map((item) => (
-            <MenuItem
-              value={item._id}
-              key={item._id}
-              sx={{ justifyContent: "space-between" }}
-              onClick={() => {
-                setSelectedValue((prev) => {
-                  prev.splice(0, 1, item);
+          {options?.map((item) => {
+            // console.log(item);
+            return (
+              <MenuItem
+                value={item._id}
+                key={item.key || item._id}
+                sx={{ justifyContent: "space-between" }}
+                onClick={() => {
+                  setSelectedValue((prev) => {
+                    console.log(prev, "prev");
+                    prev.splice(0, 1, item);
 
-                  return prev;
-                });
-              }}
-            >
-              {item.name || item.fullName}
-              {currentDataForThisKeyValue?.includes(item) ? (
-                <CheckIcon color="info" />
-              ) : null}
-            </MenuItem>
-          ))}
+                    return prev;
+                  });
+
+                  console.log(selectedValue, "selected");
+                }}
+              >
+                {item.name || item.fullName}
+                {/* {console.log(currentData, _name)} */}
+                {/* {console.log(currentData, _name)} */}
+                {currentData.map((obj) => {
+                  if (obj._id == item._id) {
+                    console.log(obj, "lalalala");
+                    return <CheckIcon color="info" key={item.key} />;
+                  } else {
+                    return null;
+                  }
+                })}
+
+                {/* {currentData?.includes(item._id) ? (
+                 
+                ) : null} */}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </>

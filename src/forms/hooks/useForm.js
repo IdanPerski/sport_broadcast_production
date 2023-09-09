@@ -60,10 +60,10 @@ const useForm = (initialForm, schema, handleSubmit) => {
   const handleChange = useCallback(
     ({ target }) => {
       const { name, value } = target;
-      const _value = value[0];
+      console.log(target);
+      let _value;
+      if (Array.isArray(value)) _value = value[0];
       const _name = formatNameToCamelCase(name);
-      // target = { name: _name, value: _value };
-      // console.log(target);
       const errorMessage = validateProperty(target);
       if (errorMessage) {
         return setErrors((prev) => ({ ...prev, [_name]: errorMessage }));
@@ -84,20 +84,21 @@ const useForm = (initialForm, schema, handleSubmit) => {
         "director",
       ];
 
-      if (singelValue.includes(_name))
+      if (singelValue.includes(_name)) {
         setData((prevData) => ({
           ...prevData,
-          [_name]: _value,
+          [_name]: value,
         }));
-      else {
+      } else {
         const currentDataKeyValue = data[_name];
-        // const _value = _value.toString();
-        console.log(_value, "!!!!!!!!!!!!!!!!!!!");
-        if (
-          Array.isArray(currentDataKeyValue) &&
-          !currentDataKeyValue.includes(_value)
-        ) {
-          const updatedArray = [...currentDataKeyValue, _value];
+        if (Array.isArray(currentDataKeyValue)) {
+          const isIdInArray = currentDataKeyValue.some(
+            (obj) => obj._id === _value._id,
+          );
+          const updatedArray = isIdInArray
+            ? currentDataKeyValue.filter((obj) => obj._id !== _value._id)
+            : [...currentDataKeyValue, _value];
+
           setData((prevData) => ({
             ...prevData,
             [_name]: updatedArray,

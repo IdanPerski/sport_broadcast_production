@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import DynamicSelectInput from "../../forms/components/DynamicSelectInput";
 import Form from "../../forms/components/Form";
 import { func, object, string } from "prop-types";
@@ -6,8 +6,8 @@ import DateInput from "../../forms/components/DateInput";
 import { Grid, Typography } from "@mui/material";
 // import AddField from "../../forms/components/AddField";
 import MultiSelect from "../../forms/components/MultiSelect";
-import useFakeUsers from "../../users/hooks/useFakeUsers";
 import useFakeData from "../../hooks/useFakeData";
+import formatNameToCamelCase from "../../forms/helpers/formatNameToCamelCase ";
 
 const AddProductionForm = ({
   onSubmit,
@@ -19,16 +19,34 @@ const AddProductionForm = ({
   title,
   date,
 }) => {
-  // const { callFakeUser, fakeValue } = useFakeUsers();
   const { callFakeData, fakeValue } = useFakeData();
+
+  const { isLoading, fakeUsers, fakeProdType, fakeLocations } = fakeValue;
+
+  const fitRolesToName = (optionsArray, roleName) => {
+    let personRoleArray = [];
+    optionsArray.map((person) => {
+      const { roles } = person;
+      roles.map((role) => {
+        if (role.role === formatNameToCamelCase(roleName)) {
+          const personFitsToRole = {
+            fullName: `${person.firstName} ${person.lastName}`,
+            _id: person._id,
+            key: role._id + " " + person._id,
+          };
+
+          personRoleArray.push(personFitsToRole);
+        }
+      });
+    });
+
+    return !personRoleArray ? null : personRoleArray;
+  };
 
   useEffect(() => {
     callFakeData();
   }, []);
-  console.log(fakeValue);
-  const { isLoading, fakeUsers, fakeProdType, fakeLocations } = fakeValue;
 
-  // const broadcastType = [
   //   {
   //     name: "Football",
   //     _id: "11",
@@ -189,7 +207,7 @@ const AddProductionForm = ({
       <Grid container spacing={0} sx={{ mt: 5 }}>
         <Grid item xs={12}>
           <MultiSelect
-            options={fakeUsers}
+            options={fitRolesToName(fakeUsers, "Producer")}
             onChange={onInputChange}
             name={"Producer"}
             data={data}
@@ -200,7 +218,7 @@ const AddProductionForm = ({
       <Grid container spacing={0} sx={{ mt: 5 }}>
         <Grid item xs={12}>
           <MultiSelect
-            options={fakeUsers}
+            options={fitRolesToName(fakeUsers, "Technician")}
             onChange={onInputChange}
             name={"Technician"}
             data={data}
@@ -211,7 +229,7 @@ const AddProductionForm = ({
       <Grid container spacing={0} sx={{ mt: 5 }}>
         <Grid item xs={12}>
           <MultiSelect
-            options={fakeUsers}
+            options={fitRolesToName(fakeUsers, "Camera Operators")}
             onChange={onInputChange}
             name={"Camera Operators"}
             data={data}
@@ -228,14 +246,15 @@ const AddProductionForm = ({
       </Typography>
 
       <DynamicSelectInput
-        name="Director"
-        label="Director"
+        name="director"
+        label="director"
         error={errors.type}
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fakeUsers}
+        options={fitRolesToName(fakeUsers, "Director")}
       />
+
       <DynamicSelectInput
         name="Vision Mixer Operator"
         label="Vision Mixer Operator"
@@ -243,7 +262,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fakeUsers}
+        options={fitRolesToName(fakeUsers, "Vision Mixer Operator")}
       />
 
       <DynamicSelectInput
@@ -253,7 +272,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fakeUsers}
+        options={fitRolesToName(fakeUsers, "cg")}
       />
       <DynamicSelectInput
         name="Editor"
@@ -262,7 +281,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fakeUsers}
+        options={fitRolesToName(fakeUsers, "Editor")}
       />
 
       <DynamicSelectInput
@@ -272,13 +291,13 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fakeUsers}
+        options={fitRolesToName(fakeUsers, "Audio Engineer")}
       />
 
       <Grid container spacing={0} sx={{ mt: 3 }}>
         <Grid item xs={9}>
           <MultiSelect
-            options={fakeUsers}
+            options={fitRolesToName(fakeUsers, "vtr")}
             onChange={onInputChange}
             name={"vtr"}
             data={data}
@@ -297,7 +316,7 @@ const AddProductionForm = ({
       <Grid container spacing={0} sx={{ mt: 1 }}>
         <Grid item xs={10}>
           <MultiSelect
-            options={fakeUsers}
+            options={fitRolesToName(fakeUsers, "Talent")}
             onChange={onInputChange}
             name={"Talents"}
             data={data}
