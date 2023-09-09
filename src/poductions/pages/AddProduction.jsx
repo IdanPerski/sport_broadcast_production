@@ -26,7 +26,7 @@ export default function AddProduction() {
 
   useEffect(() => {
     // testCallServer();
-    // return console.log(value);
+    return console.log(value);
   }, [value]);
   return (
     <AddProductionForm

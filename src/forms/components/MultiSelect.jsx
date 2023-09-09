@@ -55,7 +55,7 @@ export default function MultiSelect({ name, options, onChange, data }) {
   };
   useEffect(() => {
     checkingData(selectedValue);
-  }, [data, onChange, handleChipDelete, _name]);
+  }, [data, onChange, handleChipDelete, _name, selectedValue]);
   return (
     <>
       <FormControl sx={{ m: 1, width: "70%" }}>
@@ -112,8 +112,7 @@ export default function MultiSelect({ name, options, onChange, data }) {
                 {/* {console.log(currentData, _name)} */}
                 {/* {console.log(currentData, _name)} */}
                 {currentData.map((obj) => {
-                  if (obj._id == item._id) {
-                    console.log(obj, "lalalala");
+                  if (obj._id === item._id) {
                     return <CheckIcon color="info" key={item.key} />;
                   } else {
                     return null;

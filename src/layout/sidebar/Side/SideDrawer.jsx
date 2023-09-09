@@ -1,23 +1,15 @@
 import React from "react";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import {
-  Divider,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Divider, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { blue } from "@mui/material/colors";
 
 import PropTypes from "prop-types";
 import NavBarLink from "../../../routes/components/NavBarLink";
 import ROUTES from "../../../routes/routesModel";
-// import NavBarLink from "../../routes/components/NavBarLink";
 
 export default function SideDrawer({ drawerWidth, sideBarTitle }) {
   const menuArray = ["Home", "Add Production", "Calender", "Members"];
-  //   const drawerWidth = width;
 
   const setMenuListItemButton = (title, navigteTo, key) => {
     return (
@@ -54,20 +46,20 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
 
           {menuArray.map((menuItem, i) => {
             switch (menuItem) {
+              case "Home":
+                return setMenuListItemButton(menuItem, ROUTES.ROOT, i);
+
               case "Add Production":
                 return setMenuListItemButton(menuItem, ROUTES.ADD_PROD, i);
-                break;
 
               default:
                 return (
                   <ListItem key={menuItem} disablePadding>
                     <ListItemButton>
                       <ListItemText primary={menuItem} />
-                      {/* <NavBarLink to={ROUTES.ADD_PROD}>{menuItem}</NavBarLink> */}
                     </ListItemButton>
                   </ListItem>
                 );
-                break;
             }
           })}
         </List>

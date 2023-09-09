@@ -54,7 +54,7 @@ const useForm = (initialForm, schema, handleSubmit) => {
       // error == undefined ? console.log("no error") : console.log(error, "!!");
       return error ? error.details[0].message : null;
     },
-    [schema],
+    [schema, handleDateInput],
   );
 
   const handleChange = useCallback(
