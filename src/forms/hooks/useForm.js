@@ -18,7 +18,7 @@ const useForm = (initialForm, schema, handleSubmit) => {
     if (selectedDate < currentDate) {
       setErrors((prev) => ({
         ...prev,
-        ["date"]: "Selected date has already passed.",
+        date: "Selected date has already passed.",
       }));
 
       setData((prevData) => ({
@@ -120,7 +120,9 @@ const useForm = (initialForm, schema, handleSubmit) => {
 
   const validateForm = useCallback(() => {
     const schemaForValidate = Joi.object(schema);
+
     const { error } = schemaForValidate.validate(data);
+    console.log(error);
     if (error) return error;
     return null;
   }, [schema, data]);

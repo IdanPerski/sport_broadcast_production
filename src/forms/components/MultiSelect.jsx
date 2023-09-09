@@ -17,19 +17,18 @@ export default function MultiSelect({ name, options, onChange, data }) {
   const _name = formatNameToCamelCase(name);
 
   const currentData = data[_name];
-  console.log(currentData);
 
-  const getNames = (value) => {
-    let singleName;
-    options
-      .filter((item) => !currentData.includes(item._id))
-      .map((currentDataItem) => {
-        if (value._id === currentDataItem._id) {
-          singleName = currentDataItem.fullName;
-        }
-      });
-    return singleName;
-  };
+  // const getNames = (value) => {
+  //   let singleName;
+  //   options
+  //     .filter((item) => !currentData.includes(item._id))
+  //     .map((currentDataItem) => {
+  //       if (value._id === currentDataItem._id) {
+  //         singleName = currentDataItem.fullName;
+  //       }
+  //     });
+  //   return singleName;
+  // };
 
   const [selectedValue, setSelectedValue] = useState([]);
   adjustOptionsToSelectValue(options);

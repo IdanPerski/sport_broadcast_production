@@ -18,7 +18,6 @@ const DynamicSelectInput = ({
   ...rest
 }) => {
   const [selectedValue, setSelectedValue] = useState("");
-  console.log(options, name);
   useEffect(() => {
     if (Array.isArray(options) && options.length > 0) {
       const optionsKeys = Object.keys(options[0]);
