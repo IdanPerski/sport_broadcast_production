@@ -41,6 +41,13 @@ const DynamicSelectInput = ({
           error={Boolean(error)}
           onChange={onChange}
         >
+          <MenuItem
+            value={""}
+            onClick={() => setSelectedValue("")}
+            sx={{ height: "2rem" }}
+          >
+            {" "}
+          </MenuItem>
           {options?.map((item) => {
             return (
               <MenuItem

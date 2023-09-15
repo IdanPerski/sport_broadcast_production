@@ -1,7 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
-import { createProduction } from "../services/productionsApiService";
+import {
+  createProduction,
+  getProductions,
+  getProductionsForMainTable,
+} from "../services/productionsApiService";
 
-export default function useProduction() {
+export default function useProductions() {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [productions, setProductions] = useState([]);
@@ -23,7 +27,6 @@ export default function useProduction() {
   const handleSetProductionCrew = useCallback(async (productionCrew) => {
     try {
       setLoading(true);
-
       const newProduction = await createProduction(productionCrew);
       requestStatus(false, null, null, newProduction);
       // snack("success", "A new production has been created");
@@ -33,9 +36,24 @@ export default function useProduction() {
     }
   }, []);
 
-  const getProduction = useCallback(async () => {
+  const handleGetProductions = useCallback(async () => {
+    console.log("getProductions");
+    setLoading(true);
     try {
-    } catch (error) {}
+      const data = await getProductions();
+      requestStatus(false, null, data);
+    } catch (error) {
+      requestStatus(false, error, null);
+    }
+  }, []);
+  const handleGetProductionsForMainTable = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getProductionsForMainTable();
+      requestStatus(false, null, data);
+    } catch (error) {
+      requestStatus(false, error, null);
+    }
   }, []);
 
   const value = useMemo(() => {
@@ -45,5 +63,7 @@ export default function useProduction() {
   return {
     value,
     handleSetProductionCrew,
+    handleGetProductions,
+    handleGetProductionsForMainTable,
   };
 }

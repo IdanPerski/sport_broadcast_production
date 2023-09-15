@@ -47,9 +47,11 @@ const useForm = (initialForm, schema, handleSubmit) => {
       if (_name === "date") handleDateInput(value);
 
       const obj = { [_name]: value };
+
       const generateSchema = Joi.object({
         [_name]: schema[_name],
       });
+
       const { error } = generateSchema.validate(obj);
       // error == undefined ? console.log("no error") : console.log(error, "!!");
       return error ? error.details[0].message : null;
@@ -65,6 +67,7 @@ const useForm = (initialForm, schema, handleSubmit) => {
       if (Array.isArray(value)) _value = value[0];
       const _name = formatNameToCamelCase(name);
       const errorMessage = validateProperty(target);
+      console.log(errorMessage);
       if (errorMessage) {
         return setErrors((prev) => ({ ...prev, [_name]: errorMessage }));
       } else
