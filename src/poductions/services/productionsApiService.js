@@ -27,8 +27,14 @@ export const getFakeData = () => {
   );
 };
 
-export const getProductiions = () =>
-  getFromDatabase(() => axios.get(`${apiUrl}/`), "getCards error");
+export const getProductions = () =>
+  getFromDatabase(() => axios.get(`${apiUrl}/`), "getProductions error");
+
+export const getProductionsForMainTable = () =>
+  getFromDatabase(
+    () => axios.get(`${apiUrl}/`),
+    "getProductionsForMainTable error",
+  );
 
 export const createProduction = (production) => {
   return getFromDatabase(
