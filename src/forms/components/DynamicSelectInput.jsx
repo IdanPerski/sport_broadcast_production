@@ -5,6 +5,7 @@ import { makeFirstLetterCapital } from "../utils/algoMethods";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import adjustOptionsToSelectValue from "../../helpers/adjustOptionsToSelectValue";
+import formatNameToCamelCase from "../helpers/formatNameToCamelCase ";
 
 const DynamicSelectInput = ({
   variant,
@@ -18,7 +19,16 @@ const DynamicSelectInput = ({
   ...rest
 }) => {
   const [selectedValue, setSelectedValue] = useState("");
+
+  const checkData = () => {
+    const _name = formatNameToCamelCase(name);
+
+    if (data[_name] === "") {
+      setSelectedValue("");
+    }
+  };
   useEffect(() => {
+    checkData();
     if (Array.isArray(options) && options.length > 0) {
       const optionsKeys = Object.keys(options[0]);
 

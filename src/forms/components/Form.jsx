@@ -24,7 +24,7 @@ const Form = ({
   console.log(onChange());
   const navigate = useNavigate();
   // const { isDark } = useTheme();
-  const titleStyle = { color: blue[600] };
+  const titleStyle = { color: "#333333 " };
   return (
     <Box
       component="form"

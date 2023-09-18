@@ -5,6 +5,7 @@ import productionSchema from "../models/joi-schema/productionSchema";
 import normalizeProduction from "../helpers/normalization/normalizeProduction";
 import useProductions from "../hooks/useProductions";
 import useForm from "../../forms/hooks/useForm";
+import { Container } from "@mui/material";
 // import testCallServer from "../hooks/useProductions";
 // import ROUTES from "../../routes/routesModel";
 
@@ -29,15 +30,17 @@ export default function AddProduction() {
     return console.log(value);
   }, [value]);
   return (
-    <AddProductionForm
-      title={"add production"}
-      onSubmit={rest.onSubmit}
-      onReset={rest.handleReset}
-      errors={value.errors}
-      onFormChange={rest.validateForm}
-      onInputChange={rest.handleChange}
-      date={rest.handleDateInput}
-      data={value.data}
-    />
+    <Container sx={{ width: "70vw" }}>
+      <AddProductionForm
+        title={"add production"}
+        onSubmit={rest.onSubmit}
+        onReset={rest.handleReset}
+        errors={value.errors}
+        onFormChange={rest.validateForm}
+        onInputChange={rest.handleChange}
+        date={rest.handleDateInput}
+        data={value.data}
+      />
+    </Container>
   );
 }

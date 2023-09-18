@@ -1,9 +1,15 @@
-import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { getFakeData } from "../../poductions/services/productionsApiService";
-import { Height } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 export default function Row(props) {
   // console.log(props);
   const { row } = props;
@@ -29,7 +35,6 @@ export default function Row(props) {
         <TableCell component="th" scope="row">
           {row.ascending}
         </TableCell>
-        {console.log(row)}
         <TableCell align="center">
           <Typography variant="body1" color="initial">
             {row.date}
@@ -46,7 +51,25 @@ export default function Row(props) {
             dangerouslySetInnerHTML={{ __html: row.weatherData }}
           />
         </TableCell>
-        {/* <TableCell align="center">{}</TableCell> */}
+        <TableCell
+          align="center"
+          sx={
+            {
+              // display: "flex",
+              // justifyContent: "space-around",
+              // margin: "15px auto",
+              // width: "60%",
+            }
+          }
+        >
+          <Button onClick={() => console.log("Edit")} sx={{ color: "black" }}>
+            <EditIcon />
+          </Button>
+
+          <Button onClick={() => console.log("delete")} sx={{ color: "red" }}>
+            <DeleteForeverIcon />
+          </Button>
+        </TableCell>
       </TableRow>
     </>
   );

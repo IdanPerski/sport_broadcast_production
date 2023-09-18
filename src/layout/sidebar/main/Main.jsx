@@ -9,7 +9,7 @@ export default function Main({ children, widthLayout, marginLayout }) {
     <>
       <Box
         sx={{
-          minHeight: "85vh",
+          minHeight: "100vh",
           width: widthLayout,
           marginLeft: marginLayout, // Set the width of the sidebar
           // position: "fixed",
@@ -18,6 +18,7 @@ export default function Main({ children, widthLayout, marginLayout }) {
           bottom: 0,
           overflow: "auto",
           // backgroundColor: isDark ? "#333333" : "#e3f2fd",
+          backgroundColor: "#FAF3E0",
           // color: isDark ? "white" : "#333333",
         }}
       >

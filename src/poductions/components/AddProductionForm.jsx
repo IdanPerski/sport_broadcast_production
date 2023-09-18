@@ -252,7 +252,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "Director")}
+        options={fitRolesToName(fakeUsers, "director")}
       />
 
       <DynamicSelectInput
@@ -262,7 +262,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "Vision Mixer Operator")}
+        options={fitRolesToName(fakeUsers, "vision Mixer Operator")}
       />
 
       <DynamicSelectInput
