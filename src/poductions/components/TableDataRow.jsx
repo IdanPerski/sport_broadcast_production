@@ -10,15 +10,21 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-export default function Row(props) {
-  // console.log(props);
-  const { row } = props;
+import useProductions from "../hooks/useProductions";
+export default function TableDataRow({ data, deleteRow }) {
   const [open, setOpen] = useState(false);
   /* ascending: "#",
     date: "Date",
     location: "Location",
     whether: "Whether", */
   //   useEffect(() => {}, []);
+
+  const { handleDeleteProduction } = useProductions();
+  const deletePorduction = (id) => {
+    deleteRow();
+    console.log(data._id);
+    handleDeleteProduction(data._id);
+  };
 
   return (
     <>
@@ -33,22 +39,22 @@ export default function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.ascending}
+          {data.ascending}
         </TableCell>
         <TableCell align="center">
           <Typography variant="body1" color="initial">
-            {row.date}
+            {data.date}
           </Typography>
         </TableCell>
         <TableCell align="center">
           <Typography variant="body1" color="initial">
-            {row.locationName}
+            {data.locationName}
           </Typography>
         </TableCell>
         <TableCell align="center">
           <div
             style={{ margin: "0 auto" }}
-            dangerouslySetInnerHTML={{ __html: row.weatherData }}
+            dangerouslySetInnerHTML={{ __html: data.weatherData }}
           />
         </TableCell>
         <TableCell
@@ -66,7 +72,7 @@ export default function Row(props) {
             <EditIcon />
           </Button>
 
-          <Button onClick={() => console.log("delete")} sx={{ color: "red" }}>
+          <Button onClick={deletePorduction} sx={{ color: "red" }}>
             <DeleteForeverIcon />
           </Button>
         </TableCell>

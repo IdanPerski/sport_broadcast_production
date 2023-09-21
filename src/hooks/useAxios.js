@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
-
-// import { useUser } from "../user/providers/UseProvider";
-// import { useSnack } from "../providers/SnackBarProvider";
+import { useUser } from "../users/providers/UserProvider";
+import { useSnack } from "../providers/SnackBarProvider";
 
 export default function useAxios() {
   const snack = useSnack();

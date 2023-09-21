@@ -1,7 +1,7 @@
 import React from "react";
 import { string, bool, object, func } from "prop-types";
 import TextField from "@mui/material/TextField";
-import { makeFirstLetterCapital } from "../utils/algoMethods";
+// import { makeFirstLetterCapital } from "../utils/algoMethods";
 import Grid from "@mui/material/Grid";
 
 const Input = ({
@@ -15,15 +15,17 @@ const Input = ({
   onChange,
   ...rest
 }) => {
+  console.log(data, "dayta intput");
+  console.log(data[name], "data[name]");
   return (
     <Grid item xs={12} {...rest}>
       <TextField
         variant={variant}
-        label={makeFirstLetterCapital(label)}
+        label={label}
         type={type}
         id={name}
         name={name}
-        value={data[name] ? data[name] : ""}
+        value={data[name]}
         required={required}
         helperText={error}
         error={Boolean(error)}

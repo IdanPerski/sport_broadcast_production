@@ -10,16 +10,7 @@ export const getFromDatabase = async (getData, errorCatch) => {
     return Promise.reject(error.message);
   }
 };
-/* -----test-------- */
-/* export const getTest = () => {
-  console.log("!!!!getTest!!!!!!!!!");
-  return getFromDatabase(
-    () => {
-      return axios.get(`${apiUrl}/addProduction`);
-    }, // wrap axios.get in a function
-    "getTest error",
-  );
-}; */
+
 export const getFakeData = () => {
   return getFromDatabase(
     () => axios.get(`${apiUrl}/addProduction`),
@@ -42,3 +33,9 @@ export const createProduction = (production) => {
     "set production error",
   );
 };
+
+export const deleteProduction = (productionId) =>
+  getFromDatabase(
+    () => axios.delete(`${apiUrl}/${productionId}`),
+    "deleteCard error",
+  );

@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import {
   createProduction,
+  deleteProduction,
   getProductions,
   getProductionsForMainTable,
 } from "../services/productionsApiService";
@@ -56,6 +57,19 @@ export default function useProductions() {
     }
   }, []);
 
+  const handleDeleteProduction = async (productionId) => {
+    console.log(productionId, "handleDeleteProduction");
+
+    try {
+      setLoading(true);
+      await deleteProduction(productionId);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
   const value = useMemo(() => {
     return { isLoading, productions, production, error };
   }, [isLoading, productions, production, error]);
@@ -65,5 +79,6 @@ export default function useProductions() {
     handleSetProductionCrew,
     handleGetProductions,
     handleGetProductionsForMainTable,
+    handleDeleteProduction,
   };
 }

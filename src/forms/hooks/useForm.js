@@ -121,6 +121,24 @@ const useForm = (initialForm, schema, handleSubmit) => {
     [validateProperty, data],
   );
 
+  const handleChangeAtTextField = useCallback(
+    ({ target }) => {
+      const { name, value } = target;
+      const errorMessage = validateProperty(target);
+      if (errorMessage)
+        setErrors((prev) => ({ ...prev, [name]: errorMessage }));
+      else
+        setErrors((prev) => {
+          let obj = { ...prev };
+          delete obj[name];
+          return obj;
+        });
+
+      setData((prev) => ({ ...prev, [name]: value }));
+    },
+    [validateProperty],
+  );
+
   const validateForm = useCallback(() => {
     const schemaForValidate = Joi.object(schema);
 
@@ -146,6 +164,7 @@ const useForm = (initialForm, schema, handleSubmit) => {
     validateForm,
     handleDateInput,
     setData,
+    handleChangeAtTextField,
   };
 };
 

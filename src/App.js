@@ -2,13 +2,19 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import SideBarLayout from "./layout/sidebar/SideBarLayout";
 import AppRouter from "./routes/AppRouter";
+import UserProvider from "./users/providers/UserProvider";
+import SnackbarProvider from "./providers/SnackBarProvider";
 
 function App() {
   return (
     <BrowserRouter>
-      <SideBarLayout>
-        <AppRouter />
-      </SideBarLayout>
+      <SnackbarProvider>
+        <UserProvider>
+          <SideBarLayout>
+            <AppRouter />
+          </SideBarLayout>
+        </UserProvider>
+      </SnackbarProvider>
     </BrowserRouter>
   );
 }

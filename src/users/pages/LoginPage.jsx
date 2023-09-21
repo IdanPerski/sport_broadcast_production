@@ -1,0 +1,62 @@
+import { Box, Grid } from "@mui/material";
+import { Navigate } from "react-router-dom";
+import ROUTES from "../../routes/routesModel";
+import Input from "../../forms/components/Input";
+import Form from "../../forms/components/Form";
+import useForm from "../../forms/hooks/useForm";
+import { useUser } from "../providers/UserProvider";
+import initialLoginForm from "../helpers/initialForms/initialLoginForm";
+import loginSchema from "../models/joi-schema/loginSchema";
+import useUsers from "../hooks/useUsers";
+export default function LoginPage() {
+  const { user } = useUser();
+  const { handleLogin } = useUsers();
+
+  const { value, ...rest } = useForm(
+    initialLoginForm,
+    loginSchema,
+    handleLogin,
+  );
+
+  console.log(user, "!!!!!!!!!!!!!!!!!!!!!!");
+
+  if (user) return <Navigate replace to={ROUTES.ROOT} />;
+  return (
+    <>
+      <Box
+        sx={{
+          margin: "0 auto",
+          width: "75%",
+        }}
+      >
+        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+          <Form
+            title="Login"
+            onSubmit={rest.onSubmit}
+            onReset={rest.handleReset}
+            styles={{ maxWidth: "450px" }}
+            onChange={rest.validateForm}
+            to={ROUTES.ROOT}
+          >
+            <Input
+              label="email"
+              name="email"
+              type="email"
+              data={value.data}
+              error={value.errors.email}
+              onChange={rest.handleChangeAtTextField}
+            />
+            <Input
+              label="password"
+              name="password"
+              type="password"
+              data={value.data}
+              error={value.errors.password}
+              onChange={rest.handleChangeAtTextField}
+            />
+          </Form>
+        </Grid>
+      </Box>
+    </>
+  );
+}
