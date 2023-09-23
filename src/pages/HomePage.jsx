@@ -13,11 +13,12 @@ import PageHeader from "../components/PageHeader";
 import useProductions from "../poductions/hooks/useProductions";
 
 // import Row from "../components/Table/Row";
-import TableDataRow from "../poductions/components/TableDataRow";
+import ProductionTableDataRow from "../poductions/components/ProductionTableDataRow";
 import TableHeadRow from "../poductions/components/TableHeadRow";
 import ROUTES from "../routes/routesModel";
 import { Navigate } from "react-router-dom";
 import { useUser } from "../users/providers/UserProvider";
+// import DynamicTableDataRow from "../components/table/DynamicTableDataRow";
 
 export default function HomePage() {
   const { handleGetProductionsForMainTable, value } = useProductions();
@@ -31,14 +32,12 @@ export default function HomePage() {
     // handleGetProductionsForMainTable();
   };
   // const { date, location, wheather } = value.productions;
-  const tableHeadArray = ["Date", "Location", "Weather", "Operations"];
+  const tableHeadArray = ["Date", "Location", "Weather", "Actions"];
   const productionsMainTableValues = value.productions;
 
-  // const TextDate
+  // const { user } = useUser();
 
-  const { user } = useUser();
-
-  if (!user) return <Navigate replace to={ROUTES.LOGIN_PAGE} />;
+  // if (!user) return <Navigate replace to={ROUTES.LOGIN_PAGE} />;
   return (
     <Container>
       <PageHeader title="Home Page" subtitle="Next Productions" />
@@ -53,10 +52,9 @@ export default function HomePage() {
             {!value.error ? (
               productionsMainTableValues?.map((production) => {
                 return (
-                  <TableDataRow
+                  <ProductionTableDataRow
                     key={production._id}
-                    data={production}
-                    deleteRow={() => handleDelete(production._id)}
+                    dataProp={production}
                   />
                 );
               })

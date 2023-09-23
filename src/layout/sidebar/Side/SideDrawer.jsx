@@ -9,7 +9,13 @@ import NavBarLink from "../../../routes/components/NavBarLink";
 import ROUTES from "../../../routes/routesModel";
 
 export default function SideDrawer({ drawerWidth, sideBarTitle }) {
-  const menuArray = ["Home", "Add Production", "Calender", "Members"];
+  const menuArray = [
+    "Home",
+    "Add Production",
+    "Calender",
+    "Members",
+    "Log out",
+  ];
 
   const setMenuListItemButton = (title, navigteTo, key) => {
     return (
@@ -51,6 +57,8 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
 
               case "Add Production":
                 return setMenuListItemButton(menuItem, ROUTES.ADD_PROD, i);
+              case "Members":
+                return setMenuListItemButton(menuItem, ROUTES.MEMBERS, i);
 
               default:
                 return (

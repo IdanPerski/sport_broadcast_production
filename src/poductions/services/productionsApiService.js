@@ -39,3 +39,10 @@ export const deleteProduction = (productionId) =>
     () => axios.delete(`${apiUrl}/${productionId}`),
     "deleteCard error",
   );
+
+export const getProductionForCollapeTable_ById = (productionId) => {
+  return getFromDatabase(
+    () => axios.get(`${apiUrl}/${productionId}`),
+    "getProductionForCollapeTable_ById error",
+  );
+};

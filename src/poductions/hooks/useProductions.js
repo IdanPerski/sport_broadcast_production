@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import {
   createProduction,
   deleteProduction,
+  getProductionForCollapeTable_ById,
   getProductions,
   getProductionsForMainTable,
 } from "../services/productionsApiService";
@@ -38,7 +39,6 @@ export default function useProductions() {
   }, []);
 
   const handleGetProductions = useCallback(async () => {
-    console.log("getProductions");
     setLoading(true);
     try {
       const data = await getProductions();
@@ -47,6 +47,24 @@ export default function useProductions() {
       requestStatus(false, error, null);
     }
   }, []);
+
+  const handleGetProduction_ForTableCollapsableContent = useCallback(
+    async (prudctionId) => {
+      console.log("handleGetProduction_ForTableCollapsableContent");
+      setLoading(true);
+      try {
+        const data = await getProductionForCollapeTable_ById(prudctionId);
+        console.log(data);
+
+        requestStatus(false, null, null, data);
+        // return data;
+      } catch (error) {
+        console.log(error);
+        requestStatus(false, error, null);
+      }
+    },
+    [],
+  );
   const handleGetProductionsForMainTable = useCallback(async () => {
     setLoading(true);
     try {
@@ -80,5 +98,6 @@ export default function useProductions() {
     handleGetProductions,
     handleGetProductionsForMainTable,
     handleDeleteProduction,
+    handleGetProduction_ForTableCollapsableContent,
   };
 }
