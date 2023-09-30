@@ -62,10 +62,13 @@ const useForm = (initialForm, schema, handleSubmit) => {
   const handleChange = useCallback(
     ({ target }) => {
       const { name, value } = target;
-      console.log(target);
+
+      console.log(name);
+      console.log(value);
       let _value;
       if (Array.isArray(value)) _value = value[0];
       const _name = formatNameToCamelCase(name);
+      console.log(_name);
       const errorMessage = validateProperty(target);
       console.log(errorMessage);
       if (errorMessage) {
@@ -76,7 +79,6 @@ const useForm = (initialForm, schema, handleSubmit) => {
           delete obj[name];
           return obj;
         });
-
       const singelValue = [
         "type",
         "location",
@@ -94,6 +96,7 @@ const useForm = (initialForm, schema, handleSubmit) => {
         }));
       } else {
         const currentDataKeyValue = data[_name];
+
         if (Array.isArray(currentDataKeyValue)) {
           const isIdInArray = currentDataKeyValue.some(
             (obj) => obj._id === _value._id,

@@ -12,8 +12,8 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
   const menuArray = [
     "Home",
     "Add Production",
-    "Calender",
-    "Members",
+    "Login",
+    "Add Member",
     "Log out",
   ];
 
@@ -59,6 +59,10 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
                 return setMenuListItemButton(menuItem, ROUTES.ADD_PROD, i);
               case "Members":
                 return setMenuListItemButton(menuItem, ROUTES.MEMBERS, i);
+              case "Login":
+                return setMenuListItemButton(menuItem, ROUTES.LOGIN_PAGE, i);
+              case "Add Member":
+                return setMenuListItemButton(menuItem, ROUTES.REGISTER, i);
 
               default:
                 return (

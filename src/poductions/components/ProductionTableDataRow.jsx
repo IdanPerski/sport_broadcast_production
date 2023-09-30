@@ -13,15 +13,19 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import useProductions from "../hooks/useProductions";
 import ProductionCollapsibleContent from "./ProductionCollapsibleContent";
-export default function TableDataRow({ dataProp, actions = [] }) {
+import DeleteProductionDialog from "./DeleteProductionDialog";
+export default function ProductionTableDataRow({
+  dataProp,
+  actions = [],
+  onDelete,
+}) {
   const [open, setOpen] = useState(false);
-  const [collapseDetails, setCollapseDetails] = useState(null);
+  // const [collapseDetails, setCollapseDetails] = useState(null);
 
-  const {
-    handleDeleteProduction,
-    handleGetProduction_ForTableCollapsableContent,
-    value: production,
-  } = useProductions();
+  const { handleGetProduction_ForTableCollapsableContent, value } =
+    useProductions();
+
+  const [isDialogOpen, setDialog] = useState(false);
 
   const defaultActions = [
     {
@@ -29,6 +33,7 @@ export default function TableDataRow({ dataProp, actions = [] }) {
       icon: <EditIcon />,
       onClick: () => {
         // Default edit action
+
         console.log(`Editing row with ID: ${dataProp._id}`);
       },
     },
@@ -38,7 +43,7 @@ export default function TableDataRow({ dataProp, actions = [] }) {
       onClick: () => {
         // Default delete action
         console.log(`Deleting row with ID: ${dataProp._id}`);
-        // handleDeleteProduction(dataProp._id);
+        setDialog(true);
       },
       color: "red",
     },
@@ -46,11 +51,8 @@ export default function TableDataRow({ dataProp, actions = [] }) {
 
   const allActions = [...defaultActions, ...actions];
 
-  useEffect(() => {
-    console.log("Production Details:", collapseDetails);
-    console.log("Production :", production);
-  }, [collapseDetails]);
-  //
+  // useEffect(() => {}, [deleteProduction]);
+
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -66,8 +68,6 @@ export default function TableDataRow({ dataProp, actions = [] }) {
                   await handleGetProduction_ForTableCollapsableContent(
                     dataProp._id,
                   );
-                  setCollapseDetails(production.production);
-                  // console.log(value.production);
                 } catch (error) {
                   console.log(error);
                 }
@@ -111,12 +111,21 @@ export default function TableDataRow({ dataProp, actions = [] }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            {/* Content for collapsible row */}
-            Collapsible content goes here
-            <ProductionCollapsibleContent data={production} />
+            <ProductionCollapsibleContent data={value} />
           </Collapse>
         </TableCell>
       </TableRow>
+
+      <DeleteProductionDialog
+        isDialogOpen={isDialogOpen}
+        onChangeDialog={() => {
+          setDialog(false);
+        }}
+        onDelete={() => {
+          onDelete(dataProp._id);
+          setDialog(false);
+        }}
+      />
     </>
   );
 }

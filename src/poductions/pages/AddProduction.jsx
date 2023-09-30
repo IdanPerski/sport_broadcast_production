@@ -6,12 +6,14 @@ import normalizeProduction from "../helpers/normalization/normalizeProduction";
 import useProductions from "../hooks/useProductions";
 import useForm from "../../forms/hooks/useForm";
 import { Container } from "@mui/material";
+import { Navigate, useNavigate } from "react-router-dom";
+import ROUTES from "../../routes/routesModel";
 // import testCallServer from "../hooks/useProductions";
 // import ROUTES from "../../routes/routesModel";
 
 export default function AddProduction() {
   const { handleSetProductionCrew } = useProductions();
-
+  const navivgate = useNavigate();
   const { value, ...rest } = useForm(
     initialProductionForm,
     productionSchema,
@@ -22,6 +24,7 @@ export default function AddProduction() {
       };
 
       handleSetProductionCrew(newProduction);
+      navivgate(ROUTES.ROOT);
     },
   );
 
@@ -29,6 +32,7 @@ export default function AddProduction() {
     // testCallServer();
     return console.log(value);
   }, [value]);
+
   return (
     <Container sx={{ width: "70vw" }}>
       <AddProductionForm

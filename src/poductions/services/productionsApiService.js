@@ -34,12 +34,13 @@ export const createProduction = (production) => {
   );
 };
 
-export const deleteProduction = (productionId) =>
-  getFromDatabase(
+export const deleteProduction = (productionId) => {
+  console.log(productionId);
+  return getFromDatabase(
     () => axios.delete(`${apiUrl}/${productionId}`),
-    "deleteCard error",
+    "deleteProduction error",
   );
-
+};
 export const getProductionForCollapeTable_ById = (productionId) => {
   return getFromDatabase(
     () => axios.get(`${apiUrl}/${productionId}`),

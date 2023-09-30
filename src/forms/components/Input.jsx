@@ -15,8 +15,6 @@ const Input = ({
   onChange,
   ...rest
 }) => {
-  console.log(data, "dayta intput");
-  console.log(data[name], "data[name]");
   return (
     <Grid item xs={12} {...rest}>
       <TextField

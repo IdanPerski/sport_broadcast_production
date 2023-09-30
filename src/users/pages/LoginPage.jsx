@@ -19,8 +19,6 @@ export default function LoginPage() {
     handleLogin,
   );
 
-  console.log(user, "!!!!!!!!!!!!!!!!!!!!!!");
-
   if (user) return <Navigate replace to={ROUTES.ROOT} />;
   return (
     <>
@@ -42,7 +40,7 @@ export default function LoginPage() {
               to={ROUTES.ROOT}
             >
               <Input
-                label="email"
+                label="Email"
                 name="email"
                 type="email"
                 data={value.data}
@@ -50,7 +48,7 @@ export default function LoginPage() {
                 onChange={rest.handleChangeAtTextField}
               />
               <Input
-                label="password"
+                label="Password"
                 name="password"
                 type="password"
                 data={value.data}

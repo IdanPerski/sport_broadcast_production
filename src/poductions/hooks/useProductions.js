@@ -6,12 +6,15 @@ import {
   getProductions,
   getProductionsForMainTable,
 } from "../services/productionsApiService";
+import { useSnack } from "../../providers/SnackBarProvider";
 
 export default function useProductions() {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [productions, setProductions] = useState([]);
   const [production, setProduction] = useState(null);
+
+  const snack = useSnack();
 
   const requestStatus = (
     loading,
@@ -70,6 +73,7 @@ export default function useProductions() {
     try {
       const data = await getProductionsForMainTable();
       requestStatus(false, null, data);
+      snack("success", "pruductions uploaded succsesfuly!");
     } catch (error) {
       requestStatus(false, error, null);
     }

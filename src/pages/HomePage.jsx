@@ -8,39 +8,48 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import useProductions from "../poductions/hooks/useProductions";
-
-// import Row from "../components/Table/Row";
 import ProductionTableDataRow from "../poductions/components/ProductionTableDataRow";
 import TableHeadRow from "../poductions/components/TableHeadRow";
-import ROUTES from "../routes/routesModel";
-import { Navigate } from "react-router-dom";
-import { useUser } from "../users/providers/UserProvider";
-// import DynamicTableDataRow from "../components/table/DynamicTableDataRow";
+import sortByDate from "../helpers/sortArray";
 
 export default function HomePage() {
-  const { handleGetProductionsForMainTable, value } = useProductions();
+  const { handleGetProductionsForMainTable, value, handleDeleteProduction } =
+    useProductions();
   useEffect(() => {
-    console.log("useEffect HomePage");
     handleGetProductionsForMainTable();
   }, []);
-
-  const handleDelete = (id) => {
-    console.log("handeling delete from homePage,delete:", id);
-    // handleGetProductionsForMainTable();
-  };
-  // const { date, location, wheather } = value.productions;
   const tableHeadArray = ["Date", "Location", "Weather", "Actions"];
-  const productionsMainTableValues = value.productions;
+
+  const { productions } = value;
+
+  const [productionsState, setProductionsState] = useState(productions);
+
+  const deleteProduction = (productionId) => {
+    handleDeleteProduction(productionId);
+    const updatedProductions = productionsState.filter(
+      (production) => production._id !== productionId,
+    );
+
+    setProductionsState(updatedProductions);
+  };
+
+  // console.log("producrions main table:", productions);
+
+  useEffect(() => {
+    if (productions) {
+      setProductionsState(sortByDate(productions));
+    }
+  }, [productions]);
 
   // const { user } = useUser();
 
   // if (!user) return <Navigate replace to={ROUTES.LOGIN_PAGE} />;
   return (
     <Container>
-      <PageHeader title="Home Page" subtitle="Next Productions" />
+      <PageHeader title="Next Productions" subtitle="" />
       <TableContainer
         component={Paper}
         sx={{ width: "85%", margin: "auto" }}
@@ -50,11 +59,12 @@ export default function HomePage() {
           <TableHeadRow tableHeadArray={tableHeadArray} />
           <TableBody>
             {!value.error ? (
-              productionsMainTableValues?.map((production) => {
+              productionsState?.map((production) => {
                 return (
                   <ProductionTableDataRow
                     key={production._id}
                     dataProp={production}
+                    onDelete={deleteProduction}
                   />
                 );
               })
@@ -62,8 +72,7 @@ export default function HomePage() {
               <TableRow>
                 <TableCell colSpan={7} sx={{ textAlign: "center" }}>
                   <Typography variant="body1" color="red">
-                    No Connection to Productions API. Please contact
-                    administrators.
+                    {value.error}
                   </Typography>
                 </TableCell>
               </TableRow>

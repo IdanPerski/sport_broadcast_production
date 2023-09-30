@@ -18,6 +18,7 @@ const DynamicSelectInput = ({
   options,
   ...rest
 }) => {
+  console.log(data);
   const [selectedValue, setSelectedValue] = useState("");
 
   const checkData = () => {
@@ -61,8 +62,8 @@ const DynamicSelectInput = ({
           {options?.map((item) => {
             return (
               <MenuItem
-                value={item._id}
-                key={item._key || item._id}
+                value={item._id || item}
+                key={item._key || item._id || item}
                 onClick={() => {
                   console.log(item);
                   setSelectedValue(item);
@@ -70,7 +71,7 @@ const DynamicSelectInput = ({
                   console.log(selectedValue);
                 }}
               >
-                {item.name || item.fullName}
+                {item.name || item.fullName || item}
               </MenuItem>
             );
           })}
