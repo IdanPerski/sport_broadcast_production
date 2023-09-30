@@ -20,7 +20,6 @@ export default function UserProvider({ children }) {
       setUser(userFromLocalStorage);
     }
   }, [user, setUser]);
-
   const value = useMemo(
     () => ({ user, setUser, token, setToken }),
     [user, token],
