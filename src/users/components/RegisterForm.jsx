@@ -31,13 +31,13 @@ const RegisterForm = ({
 
   const [roleRatesInput, setRoleRatesInput] = useState([]);
 
-  const handleAddRoleRate = () => {
-    // Create a unique key for each RoleRate component
-    const key = roleRatesInput.length + 1;
+  // const handleAddRoleRate = () => {
+  //   // Create a unique key for each RoleRate component
+  //   const key = roleRatesInput.length + 1;
 
-    // Add a new RoleRate component to the array
-    setRoleRatesInput([...roleRatesInput, { key }]);
-  };
+  //   // Add a new RoleRate component to the array
+  //   setRoleRatesInput([...roleRatesInput, { key }]);
+  // };
 
   return (
     <Form
@@ -150,9 +150,9 @@ const RegisterForm = ({
           Roles:
         </Typography>
 
-        <Button sx={{ width: "100%" }} onClick={handleAddRoleRate}>
+        {/* <Button sx={{ width: "100%" }} onClick={handleAddRoleRate}>
           Add Role
-        </Button>
+        </Button> */}
 
         <MultiSelect
           name={"roles"}
