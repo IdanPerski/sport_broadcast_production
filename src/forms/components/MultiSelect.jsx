@@ -15,21 +15,7 @@ import formatNameToCamelCase from "../helpers/formatNameToCamelCase ";
 
 export default function MultiSelect({ name, options, onChange, data }) {
   const _name = formatNameToCamelCase(name);
-
   const currentData = data[_name];
-
-  // const getNames = (value) => {
-  //   let singleName;
-  //   options
-  //     .filter((item) => !currentData.includes(item._id))
-  //     .map((currentDataItem) => {
-  //       if (value._id === currentDataItem._id) {
-  //         singleName = currentDataItem.fullName;
-  //       }
-  //     });
-  //   return singleName;
-  // };
-
   const [selectedValue, setSelectedValue] = useState([]);
   adjustOptionsToSelectValue(options);
 
@@ -38,19 +24,28 @@ export default function MultiSelect({ name, options, onChange, data }) {
   };
 
   const handleChipDelete = (value) => {
-    const updatedSelectedValue = currentData.filter((item) => item !== value);
+    const updatedSelectedValue = currentData.filter((item) => {
+      console.log(item);
+      return item !== value;
+    });
+    console.log(updatedSelectedValue);
     setSelectedValue((prev) => updatedSelectedValue);
+    console.log(value);
     onChange(createCustomTarget([value]));
   };
 
   const createCustomTarget = (value) => {
+    console.log(_name);
+    console.log(value);
+    if (_name === "roles") value[0] = { role: value[0] };
+    if (value[0].fullName)
+      value = [{ fullName: value[0].fullName, _id: value[0]._id }];
     const customTarget = {
       target: {
-        name: name, // Use the name of the MultiSelect
-        value: [{ fullName: value[0].fullName, _id: value[0]._id }],
+        name: _name,
+        value: value,
       },
     };
-
     return customTarget;
   };
   useEffect(() => {
@@ -70,14 +65,11 @@ export default function MultiSelect({ name, options, onChange, data }) {
             return (
               <Stack gap={1} direction="row" flexWrap="wrap">
                 {currentData?.map((value) => {
-                  console.log(value);
-                  // const nameValue = getNames(value);
-                  // console.log(value, nameValue, "value");
                   return (
                     <Chip
-                      key={value._id}
-                      label={value.fullName}
-                      onDelete={() => handleChipDelete(value)}
+                      key={value._id || value.role || value}
+                      label={value.fullName || value.role || value}
+                      onDelete={() => handleChipDelete(value.role || value)}
                       deleteIcon={
                         <CancelIcon
                           onMouseDown={(event) => event.stopPropagation()}
@@ -91,37 +83,30 @@ export default function MultiSelect({ name, options, onChange, data }) {
           }}
         >
           {options?.map((item) => {
-            // console.log(item);
             return (
               <MenuItem
-                value={item._id}
-                key={item.key || item._id}
+                value={item._id || item}
+                key={item.key || item._id || item}
                 sx={{ justifyContent: "space-between" }}
                 onClick={() => {
                   setSelectedValue((prev) => {
-                    console.log(prev, "prev");
                     prev.splice(0, 1, item);
-
                     return prev;
                   });
-
-                  console.log(selectedValue, "selected");
                 }}
               >
-                {item.name || item.fullName}
-                {/* {console.log(currentData, _name)} */}
-                {/* {console.log(currentData, _name)} */}
+                {item.name || item.fullName || item}
+
                 {currentData.map((obj) => {
-                  if (obj._id === item._id) {
+                  if (obj.role && obj.role === item) {
+                    return <CheckIcon color="info" key={item} />;
+                  }
+                  if (!obj.role && obj._id === item._id) {
                     return <CheckIcon color="info" key={item.key} />;
                   } else {
                     return null;
                   }
                 })}
-
-                {/* {currentData?.includes(item._id) ? (
-                 
-                ) : null} */}
               </MenuItem>
             );
           })}

@@ -14,7 +14,8 @@ export const login = async (user) => {
 
 export const signup = async (normalizedUser) => {
   try {
-    const { data } = await axios.post(`${apiUrl}/users`, normalizedUser);
+    const { data } = await axios.post(`${apiUrl}/register`, normalizedUser);
+    console.log(data, "DATA");
     return data;
   } catch (error) {
     return Promise.reject(error.message);

@@ -1,14 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { func, object, string } from "prop-types";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import ROUTES from "../../routes/routesModel";
 import MultiSelect from "../../forms/components/MultiSelect";
-import { Box, Typography } from "@mui/material";
-import DynamicSelectInput from "../../forms/components/DynamicSelectInput";
+import { Button, Typography } from "@mui/material";
 
 const RegisterForm = ({
   onSubmit,
@@ -31,6 +28,17 @@ const RegisterForm = ({
     "Producer",
     "Talent",
   ];
+
+  const [roleRatesInput, setRoleRatesInput] = useState([]);
+
+  const handleAddRoleRate = () => {
+    // Create a unique key for each RoleRate component
+    const key = roleRatesInput.length + 1;
+
+    // Add a new RoleRate component to the array
+    setRoleRatesInput([...roleRatesInput, { key }]);
+  };
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -141,45 +149,18 @@ const RegisterForm = ({
         <Typography sx={{ m: 1, fontSize: "1.3em", width: "100%" }}>
           Roles:
         </Typography>
-        <DynamicSelectInput
-          name="role"
-          label="Role"
-          error={errors.role}
-          onChange={onInputChange}
-          data={data}
-          sm={8}
+
+        <Button sx={{ width: "100%" }} onClick={handleAddRoleRate}>
+          Add Role
+        </Button>
+
+        <MultiSelect
+          name={"roles"}
           options={RolesArray}
-        />
-        <Input
-          name="rate"
-          label="Rate"
-          type="number"
-          error={errors.rate}
-          onChange={onInputChange}
           data={data}
-          sm={4}
+          onChange={onInputChange}
         />
       </Grid>
-
-      {/*      <Input
-        name="zip"
-        label="zip"
-        error={errors.zip}
-        onChange={onInputChange}
-        data={data}
-        sm={6}
-        required={false}
-      /> */}
-      {/* <Grid item> */}
-      {/* <FormControlLabel
-          onChange={(e) => {
-            setData({ ...data, isBusiness: !!e.target.checked });
-          }}
-          name="isBusiness"
-          control={<Checkbox value={data.isBusiness} color="primary" />}
-          label="Signup as business"
-        /> */}
-      {/* </Grid> */}
     </Form>
   );
 };

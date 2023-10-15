@@ -28,6 +28,16 @@ export default function AddProduction() {
     },
   );
 
+  const roles = [
+    "type",
+    "location",
+    "cg",
+    "editor",
+    "audioEngineer",
+    "visionMixerOperator",
+    "director",
+  ];
+
   useEffect(() => {
     // testCallServer();
     return console.log(value);
@@ -41,7 +51,7 @@ export default function AddProduction() {
         onReset={rest.handleReset}
         errors={value.errors}
         onFormChange={rest.validateForm}
-        onInputChange={rest.handleChange}
+        onInputChange={(target) => rest.handleChange(target, roles)}
         date={rest.handleDateInput}
         data={value.data}
       />

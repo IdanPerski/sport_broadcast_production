@@ -1,24 +1,26 @@
 const normalizeUser = (user) => ({
   name: {
-    first: user.first,
-    last: user.last,
+    firstName: user.first,
+    lastName: user.last,
   },
-  phoneNumber: user.phone,
   email: user.email,
-  password: user.password,
-  address: {
-    country: user.country,
-    city: user.city,
-    street: user.street,
-    zip: user.zip,
-    houseNumber: user.houseNumber,
+  contact: {
+    phoneNumber: user.phone,
+
+    address: {
+      // country: user.country,
+      city: user.city,
+      street: user.street,
+      streetNumber: user.streetNumber,
+    },
   },
-  image: {
-    url: user.url,
-    alt: user.alt,
-  },
+  // image: {
+  //   url: user.url,
+  //   alt: user.alt,
+  // },
   roles: user.roles,
-  isAdmin: user.isAdmin,
+  password: user.password,
+  // isAdmin: user.isAdmin,
 });
 
 export default normalizeUser;

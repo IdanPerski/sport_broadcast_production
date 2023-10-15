@@ -24,8 +24,8 @@ const useUsers = () => {
   const requestStatus = useCallback(
     (loading, errorMessage, user = null) => {
       setLoading(loading);
-      setUser(user);
       setError(errorMessage);
+      setUser(user);
     },
     [setUser],
   );
@@ -36,8 +36,9 @@ const useUsers = () => {
       setTokenInLocalStorage(token);
       setToken(token);
       const userFromLocalStorage = getUser();
+      console.log(userFromLocalStorage);
       requestStatus(false, null, userFromLocalStorage);
-      navigate(ROUTES.CARDS);
+      // navigate(ROUTES.CARDS);
     } catch (error) {
       console.log("catched error at handleLogin");
       requestStatus(false, error, null);
@@ -49,16 +50,13 @@ const useUsers = () => {
     setUser(null);
   }, [setUser]);
 
-  const handleSignup = useCallback(
+  const registerUser = useCallback(
     async (userFromClient) => {
       try {
         const normalizedUser = normalizeUser(userFromClient);
         await signup(normalizedUser);
-
-        await handleLogin({
-          email: userFromClient.email,
-          password: userFromClient.password,
-        });
+        snack("success", "User has been successfully Registered");
+        requestStatus(false, null, user);
       } catch (error) {
         requestStatus(false, error, null);
       }
@@ -131,7 +129,7 @@ UPDATE USER
     value,
     handleLogin,
     handleLogout,
-    handleSignup,
+    registerUser,
     handleUpdateUser,
   };
 };

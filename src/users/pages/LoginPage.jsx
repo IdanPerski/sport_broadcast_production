@@ -45,7 +45,7 @@ export default function LoginPage() {
                 type="email"
                 data={value.data}
                 error={value.errors.email}
-                onChange={rest.handleChangeAtTextField}
+                onChange={rest.handleChange}
               />
               <Input
                 label="Password"
@@ -53,7 +53,7 @@ export default function LoginPage() {
                 type="password"
                 data={value.data}
                 error={value.errors.password}
-                onChange={rest.handleChangeAtTextField}
+                onChange={rest.handleChange}
               />
             </Form>
           </Grid>

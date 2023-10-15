@@ -7,8 +7,9 @@ const initialAddUserForm = {
   streetNumber: "",
   phone: "",
   email: "",
-  role: "",
-  rate: "",
+  roles: [],
+  authorization: "user",
+  password: "",
 };
 
 export default initialAddUserForm;

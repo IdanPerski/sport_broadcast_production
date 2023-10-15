@@ -18,7 +18,6 @@ const DynamicSelectInput = ({
   options,
   ...rest
 }) => {
-  console.log(data);
   const [selectedValue, setSelectedValue] = useState("");
 
   const checkData = () => {
@@ -65,10 +64,7 @@ const DynamicSelectInput = ({
                 value={item._id || item}
                 key={item._key || item._id || item}
                 onClick={() => {
-                  console.log(item);
                   setSelectedValue(item);
-
-                  console.log(selectedValue);
                 }}
               >
                 {item.name || item.fullName || item}
