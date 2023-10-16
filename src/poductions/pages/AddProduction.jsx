@@ -13,6 +13,7 @@ import ROUTES from "../../routes/routesModel";
 
 export default function AddProduction() {
   const { handleSetProductionCrew } = useProductions();
+
   const navivgate = useNavigate();
   const { value, ...rest } = useForm(
     initialProductionForm,
@@ -40,6 +41,7 @@ export default function AddProduction() {
 
   useEffect(() => {
     // testCallServer();
+
     return console.log(value);
   }, [value]);
 

@@ -12,6 +12,10 @@ import useAxios from "../../hooks/useAxios";
 import normalizeUser from "../helpers/normalization/normalizeUser";
 import { useSnack } from "../../providers/SnackBarProvider";
 import { useUser } from "../providers/UserProvider";
+import {
+  getAllUsers,
+  getProductionElemnents,
+} from "../../poductions/services/productionsApiService";
 
 const useUsers = () => {
   const [isLoading, setLoading] = useState(true);
@@ -20,6 +24,8 @@ const useUsers = () => {
   const navigate = useNavigate();
   const { user, setUser, setToken } = useUser();
   useAxios();
+
+  const [allUsers, setAllUsers] = useState([]);
 
   const requestStatus = useCallback(
     (loading, errorMessage, user = null) => {
@@ -54,10 +60,13 @@ const useUsers = () => {
     async (userFromClient) => {
       try {
         const normalizedUser = normalizeUser(userFromClient);
+
+        console.log(normalizedUser);
         await signup(normalizedUser);
         snack("success", "User has been successfully Registered");
         requestStatus(false, null, user);
       } catch (error) {
+        console.log("register user Error:", error);
         requestStatus(false, error, null);
       }
     },
@@ -120,9 +129,22 @@ UPDATE USER
   
   */
 
+  const handleGetAllUsersRoles = async () => {
+    console.log("handleGetAllUsersRoles ON");
+    setLoading(true);
+    try {
+      const data = await getProductionElemnents();
+      setAllUsers(data.users);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   const value = useMemo(
-    () => ({ isLoading, error, user }),
-    [isLoading, error, user],
+    () => ({ isLoading, error, user, allUsers }),
+    [isLoading, error, user, allUsers],
   );
 
   return {
@@ -131,6 +153,7 @@ UPDATE USER
     handleLogout,
     registerUser,
     handleUpdateUser,
+    handleGetAllUsersRoles,
   };
 };
 
