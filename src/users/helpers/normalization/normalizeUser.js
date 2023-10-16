@@ -1,26 +1,39 @@
-const normalizeUser = (user) => ({
-  name: {
-    firstName: user.first,
-    lastName: user.last,
-  },
-  email: user.email,
-  contact: {
-    phoneNumber: user.phone,
+import formatNameToCamelCase from "../../../forms/helpers/formatNameToCamelCase ";
 
-    address: {
-      // country: user.country,
-      city: user.city,
-      street: user.street,
-      streetNumber: user.streetNumber,
+const normalizeUser = (user) => {
+  let { roles } = user;
+  roles.map((obj) => {
+    console.log(obj.role);
+    if (obj.role != "CG") {
+      console.log(obj.role);
+      obj.role = formatNameToCamelCase(obj.role);
+    }
+  });
+
+  return {
+    name: {
+      firstName: user.first,
+      lastName: user.last,
     },
-  },
-  // image: {
-  //   url: user.url,
-  //   alt: user.alt,
-  // },
-  roles: user.roles,
-  password: user.password,
-  // isAdmin: user.isAdmin,
-});
+
+    contact: {
+      phoneNumber: user.phone,
+      email: user.email,
+      address: {
+        // country: user.country,
+        city: user.city,
+        street: user.street,
+        streetNumber: user.streetNumber,
+      },
+    },
+    // image: {
+    //   url: user.url,
+    //   alt: user.alt,
+    // },
+    roles: user.roles,
+    password: user.password,
+    // isAdmin: user.isAdmin,
+  };
+};
 
 export default normalizeUser;

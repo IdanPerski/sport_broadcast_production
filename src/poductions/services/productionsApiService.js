@@ -7,11 +7,18 @@ export const getFromDatabase = async (getData, errorCatch) => {
     return data;
   } catch (error) {
     console.log(errorCatch);
+    console.log(error);
     return Promise.reject(error.message);
   }
 };
 
 export const getFakeData = () => {
+  return getFromDatabase(
+    () => axios.get(`${apiUrl}/addProduction`),
+    "getFakeData error",
+  );
+};
+export const getProductionElemnents = () => {
   return getFromDatabase(
     () => axios.get(`${apiUrl}/addProduction`),
     "getFakeData error",

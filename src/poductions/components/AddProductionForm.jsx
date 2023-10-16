@@ -8,6 +8,7 @@ import { Grid, Typography } from "@mui/material";
 import MultiSelect from "../../forms/components/MultiSelect";
 import useFakeData from "../../hooks/useFakeData";
 import formatNameToCamelCase from "../../forms/helpers/formatNameToCamelCase ";
+import useUsers from "../../users/hooks/useUsers";
 
 const AddProductionForm = ({
   onSubmit,
@@ -21,16 +22,27 @@ const AddProductionForm = ({
 }) => {
   const { callFakeData, fakeValue } = useFakeData();
 
+  const { handleGetAllUsersRoles, value } = useUsers();
+
+  const { allUsers } = value;
+  console.log(value, allUsers);
   const { isLoading, fakeUsers, fakeProdType, fakeLocations } = fakeValue;
 
   const fitRolesToName = (optionsArray, roleName) => {
+    console.log(optionsArray);
     let personRoleArray = [];
     optionsArray.map((person) => {
-      const { roles } = person;
+      const { roles, name } = person;
+
       roles.map((role) => {
-        if (role.role === formatNameToCamelCase(roleName)) {
+        if (
+          role.role === formatNameToCamelCase(roleName) ||
+          role.role == roleName
+        ) {
+          //TODO change the person scheme at the faker to same person schema at the users
+
           const personFitsToRole = {
-            fullName: `${person.firstName} ${person.lastName}`,
+            fullName: `${name.firstName} ${name.lastName}`,
             _id: person._id,
             key: role._id + " " + person._id,
           };
@@ -45,120 +57,8 @@ const AddProductionForm = ({
 
   useEffect(() => {
     callFakeData();
+    handleGetAllUsersRoles();
   }, []);
-
-  //   {
-  //     name: "Football",
-  //     _id: "11",
-  //   },
-  //   { name: "Basketball", _id: "22" },
-  // ];
-
-  // const fakeUsers = [
-  //   {
-  //     firstName: "John",
-  //     lastName: "Doe",
-  //     _id: "1Abc",
-  //   },
-  //   {
-  //     firstName: "Jane",
-  //     lastName: "Smith",
-  //     _id: "21Abc",
-  //   },
-  //   {
-  //     firstName: "Mike",
-  //     lastName: "Johnson",
-  //     _id: "33Abc",
-  //   },
-  //   {
-  //     firstName: "Emily",
-  //     lastName: "Williams",
-  //     _id: "44Abc",
-  //   },
-  //   {
-  //     firstName: "David",
-  //     lastName: "Brown",
-  //     _id: "5Abc",
-  //   },
-  //   {
-  //     firstName: "Sophia",
-  //     lastName: "Miller",
-  //     _id: "61Abc",
-  //   },
-  //   {
-  //     firstName: "William",
-  //     lastName: "Taylor",
-  //     _id: "7Abc",
-  //   },
-  //   {
-  //     firstName: "Olivia",
-  //     lastName: "Davis",
-  //     _id: "82Abc",
-  //   },
-  //   {
-  //     firstName: "James",
-  //     lastName: "Anderson",
-  //     _id: "9Abc",
-  //   },
-  //   {
-  //     firstName: "Emma",
-  //     lastName: "Martinez",
-  //     _id: "10Abc",
-  //   },
-  // ];
-
-  // const location = [
-  //   {
-  //     _id: "e4t",
-  //     city: "Tel Aviv",
-  //     name: "Menora Mivtachim Arena",
-  //   },
-  //   {
-  //     _id: "a1p",
-  //     city: "Jerusalem",
-  //     name: "Payis Arena",
-  //   },
-  //   {
-  //     _id: "a6r",
-  //     city: "Haifa",
-  //     name: "Ramat Gan Stadium",
-  //   },
-  //   {
-  //     _id: "t7t",
-  //     city: "Beersheba",
-  //     name: "Turner Stadium",
-  //   },
-  //   {
-  //     _id: "i6e",
-  //     city: "Eilat",
-  //     name: "Eilat Municipal Stadium",
-  //   },
-  //   {
-  //     _id: "n8n",
-  //     city: "Netanya",
-  //     name: "Netanya Stadium",
-  //   },
-  //   {
-  //     _id: "h1y",
-  //     city: "Ashdod",
-  //     name: "Yud-Alef Stadium",
-  //   },
-  //   {
-  //     _id: "e7r",
-  //     city: "Rishon LeZion",
-  //     name: "Maccabi Electra Tel Aviv Arena",
-  //   },
-  //   {
-  //     _id: "o2t",
-  //     city: "Holon",
-  //     name: "Toto Holon Arena",
-  //   },
-  //   {
-  //     _id: "t5h",
-  //     city: "Petah Tikva",
-  //     name: "HaMoshava Stadium",
-  //   },
-  // ];
 
   return (
     <Form
@@ -218,7 +118,7 @@ const AddProductionForm = ({
       <Grid container spacing={0} sx={{ mt: 5 }}>
         <Grid item xs={12}>
           <MultiSelect
-            options={fitRolesToName(fakeUsers, "Technician")}
+            options={fitRolesToName(allUsers, "Technician")}
             onChange={onInputChange}
             name={"Technician"}
             data={data}
@@ -229,7 +129,7 @@ const AddProductionForm = ({
       <Grid container spacing={0} sx={{ mt: 5 }}>
         <Grid item xs={12}>
           <MultiSelect
-            options={fitRolesToName(fakeUsers, "Camera Operators")}
+            options={fitRolesToName(allUsers, "Camera Operator")}
             onChange={onInputChange}
             name={"Camera Operators"}
             data={data}
@@ -252,7 +152,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "director")}
+        options={fitRolesToName(allUsers, "director")}
       />
 
       <DynamicSelectInput
@@ -262,7 +162,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "vision Mixer Operator")}
+        options={fitRolesToName(allUsers, "vision Mixer Operator")}
       />
 
       <DynamicSelectInput
@@ -272,7 +172,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "cg")}
+        options={fitRolesToName(allUsers, "cg")}
       />
       <DynamicSelectInput
         name="Editor"
@@ -281,7 +181,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "Editor")}
+        options={fitRolesToName(allUsers, "Editor")}
       />
 
       <DynamicSelectInput
@@ -291,7 +191,7 @@ const AddProductionForm = ({
         onChange={onInputChange}
         data={data}
         sm={6}
-        options={fitRolesToName(fakeUsers, "Audio Engineer")}
+        options={fitRolesToName(allUsers, "Audio Engineer")}
       />
 
       <Grid container spacing={0} sx={{ mt: 3 }}>
