@@ -5,7 +5,6 @@ const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 export const login = async (user) => {
   try {
     const { data } = await axios.post(`${apiUrl}/login`, user);
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -16,7 +15,6 @@ export const login = async (user) => {
 export const signup = async (normalizedUser) => {
   try {
     const { data } = await axios.post(`${apiUrl}/register`, normalizedUser);
-    console.log(data, "DATA");
     return data;
   } catch (error) {
     return Promise.reject(error.message);
