@@ -19,8 +19,6 @@ export default function LoginPage() {
     handleLogin,
   );
 
-  console.log(token);
-
   if (user) return <Navigate replace to={ROUTES.ROOT} />;
   return (
     <>

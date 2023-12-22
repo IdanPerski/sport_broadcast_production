@@ -17,9 +17,7 @@ export default function UserProvider({ children }) {
 
   useEffect(() => {
     if (!user) {
-      console.log("USER IS NULL!!!!!!!");
       const userFromLocalStorage = getUser();
-      console.log(userFromLocalStorage);
       setUser(userFromLocalStorage);
     }
   }, [user, setUser]);

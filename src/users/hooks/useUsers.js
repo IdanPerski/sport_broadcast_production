@@ -42,11 +42,9 @@ const useUsers = () => {
   const handleLogin = useCallback(async (user) => {
     try {
       const token = await login(user);
-      console.log(token, "login token");
       setTokenInLocalStorage(token);
       // setToken(token);
       const userFromLocalStorage = getUser();
-      console.log(userFromLocalStorage);
       requestStatus(false, null, userFromLocalStorage);
 
       // navigate(ROUTES.ROOT);

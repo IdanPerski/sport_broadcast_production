@@ -48,7 +48,6 @@ export default function HomePage() {
   }, [productions]);
 
   const { user } = useUser();
-  console.log(user);
 
   if (!user) return <Navigate replace to={ROUTES.LOGIN_PAGE} />;
   return (
