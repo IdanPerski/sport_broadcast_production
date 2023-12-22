@@ -14,9 +14,7 @@ export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
 
   const [token, setToken] = useState(getToken());
-  console.log(user);
 
-  console.log(token, "token at userProvider");
   useEffect(() => {
     if (!user) {
       console.log("USER IS NULL!!!!!!!");
@@ -36,7 +34,7 @@ export default function UserProvider({ children }) {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  console.log(context);
+
   if (!context) throw new Error("useUser must be used within a NameProvider");
   return context;
 };

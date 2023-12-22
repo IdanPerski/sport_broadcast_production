@@ -43,7 +43,6 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
     // navigate(ROUTES.LOGIN_PAGE);
   };
 
-  console.log(user, "sideDrawer");
   return (
     <>
       <Drawer

@@ -3,7 +3,6 @@ import { useState, useCallback, useMemo } from "react";
 import {
   editUser,
   getSingleUserFromServer,
-  getUsersFromServer,
   login,
   signup,
 } from "../services/usersApiService";
@@ -18,12 +17,7 @@ import useAxios from "../../hooks/useAxios";
 import normalizeUser from "../helpers/normalization/normalizeUser";
 import { useSnack } from "../../providers/SnackBarProvider";
 import { useUser } from "../providers/UserProvider";
-import {
-  getAllUsers,
-  getProductionElemnents,
-} from "../../poductions/services/productionsApiService";
-import EditUserPage from "../pages/EditUserPage";
-import setUserIdParamAndNavigate from "../helpers/setUserIdParamsAndNavigate";
+import { getProductionElemnents } from "../../poductions/services/productionsApiService";
 
 const useUsers = () => {
   const [isLoading, setLoading] = useState(true);
