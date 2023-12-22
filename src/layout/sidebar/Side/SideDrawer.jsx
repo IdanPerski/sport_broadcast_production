@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import {
-  Button,
-  Divider,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
+import { Divider, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { blue } from "@mui/material/colors";
 
 import PropTypes from "prop-types";
 import NavBarLink from "../../../routes/components/NavBarLink";
 import ROUTES from "../../../routes/routesModel";
 import { useUser } from "../../../users/providers/UserProvider";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useUsers from "../../../users/hooks/useUsers";
 
 export default function SideDrawer({ drawerWidth, sideBarTitle }) {
@@ -24,6 +18,15 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
   const menuArray = ["Home", "Add Production", "Add Member", "Login"];
   const navigate = useNavigate();
   const setMenuListItemButton = (title, navigteTo, key) => {
+    if (title === "Logout")
+      return (
+        <ListItem key={key} disablePadding>
+          <ListItemButton onClick={onLogout}>
+            <NavBarLink to={ROUTES.LOGIN_PAGE}>{title}</NavBarLink>
+          </ListItemButton>
+        </ListItem>
+      );
+
     return (
       <ListItem key={key} disablePadding>
         <ListItemButton>
@@ -37,7 +40,7 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
     console.log("onLogout");
     handleLogout();
 
-    navigate(ROUTES.LOGIN_PAGE);
+    // navigate(ROUTES.LOGIN_PAGE);
   };
 
   console.log(user, "sideDrawer");
@@ -66,7 +69,9 @@ export default function SideDrawer({ drawerWidth, sideBarTitle }) {
           {menuArray.map((menuItem, i) => {
             switch (menuItem) {
               case "Home":
-                return setMenuListItemButton(menuItem, ROUTES.ROOT, i);
+                return user
+                  ? setMenuListItemButton(menuItem, ROUTES.ROOT, i)
+                  : null;
               case "Add Member":
                 return user && user.isAdmin
                   ? setMenuListItemButton(menuItem, ROUTES.REGISTER, i)
